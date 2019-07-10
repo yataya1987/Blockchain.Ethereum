@@ -1,0 +1,24 @@
+version: '3.4'
+
+services:
+   mongodb:
+        image: mongo:latest
+        container_name: my-mongo-container
+        restart: always
+        volumes:
+          - ~/data/docker/mongodb:/data/db
+        network_mode: "host"
+   eventsService:
+     image: nicolanardino/events_service:1.0
+     container_name: events-service
+     depends_on:
+       - mongodb
+     restart: always
+     network_mode: "host"
+   ethereumService:
+     image: nicolanardino/ethereum_service:1.0
+     container_name: ethereum-service
+     restart: always
+     volumes:
+          - /home/main/.ethereum/rinkeby/keystore:/home/main/.ethereum/rinkeby/keystore
+     network_mode: "host"
